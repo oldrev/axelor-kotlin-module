@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_4.2.xsd">
+
+	<menuitem name="menu-hello" order="-1000" title="Hello" icon="fa-folder" />
+
+	<menuitem name="menu-hello-all" parent="menu-hello"
+    	title="All HelloSales"
+    	action="hello.all"/>
+
+	<action-view name="hello.all" title="All HelloSales" model="com.axelor.sales.db.HelloSales">
+    	<view type="grid" name="hello-sales-grid"/>
+	    <view type="form" name="hello-sales-form"/>
+	</action-view>
+
+</object-views>

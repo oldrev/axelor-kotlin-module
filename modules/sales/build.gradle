@@ -1,0 +1,16 @@
+apply plugin: 'axelor-module'
+
+module {
+    name "sales"
+    title "Sales"
+
+    version "1.0.0"
+
+    description """Sales module demo.
+
+    This is a demo module to provide quick demonstration of some new features.
+    """
+
+    // module dependencies
+    // module "modules:axelor-foo"
+}

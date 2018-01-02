@@ -1,0 +1,75 @@
+buildscript {
+    ext.kotlin_version = '1.2.0'
+
+	apply from: "gradle/adk.gradle"
+
+	dependencies {
+		classpath adkPlugins()
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+	}
+}
+
+apply plugin: "axelor-app"
+
+// find all modules
+def modules = new File('modules').listFiles().findAll { dir ->
+	new File(dir, 'build.gradle').exists() && !dir.name.endsWith('-tests')
+}
+
+application {
+
+	name "axelor-sample1"
+	title "Axelor sample1"
+
+	version "1.0.0"
+
+	// ADK version required
+	adkVersion "~4.2.0"
+
+	// module dependencies
+	// module "modules:axelor-contact"
+    modules.each { dir ->
+        module "modules:$dir.name"
+    }
+}
+
+allprojects {
+
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+
+	license {
+		ext.product = "axelor-sample1"
+		ext.owner = "My Company"
+		ext.website = "http://my-company.com"
+	}
+
+    repositories {
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    }
+
+	apply plugin: "kotlin"
+
+    compileKotlin {
+        kotlinOptions {
+            jvmTarget = "1.8"
+            javaParameters = true
+        }
+    }
+
+	dependencies {
+		compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+		testCompile 'junit:junit:4.11'
+		testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+	}
+
+	sourceSets {
+		main.java.srcDirs += 'build/src-gen'
+		main.kotlin.srcDirs += 'src/main/kotlin'
+	}
+}
+
+tomcat {
+	httpPort = project.properties.get("http.port", 8080) as Integer
+	stopPort = 9451
+}
